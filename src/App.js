@@ -36,12 +36,11 @@ class App extends Component {
       })
     });
   }
-  
   render() {
     return (
       <div id="app">
         <Container fluid>
-          <Photography imageList={this.state.imageList} />
+        <Photography imageList={this.state.imageList} />
         </Container>
       </div>
     )
