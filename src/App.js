@@ -6,11 +6,14 @@ import Photography from './components/Photography/';
 import './App.scss';
 
 class App extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.state = {
       imageList: []
     }
+  }
+  componentDidMount () {
+    this.importAll(require.context("./assets/img/", true, /\.jpg$/));
   }
   importAll = (r) => {
     r.keys().forEach((key, id) => {
@@ -33,15 +36,12 @@ class App extends Component {
       })
     });
   }
-  componentDidMount () {
-    this.importAll(require.context("./assets/img/", true, /\.jpg$/));
-    console.log(this.state.imageList)
-  }
+  
   render() {
     return (
       <div id="app">
         <Container fluid>
-          <Photography />
+          <Photography imageList={this.state.imageList} />
         </Container>
       </div>
     )
