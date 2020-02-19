@@ -59,7 +59,7 @@ class Photography extends Component {
       showModal: !this.state.showModal
     })
   }
-  scrollToPos(id) {
+  scrollToPos = id => {
     setTimeout(() => {
       const modalThumbs = document.getElementById("modal-thumbs");
       let scrollPos = id * 50;
@@ -90,7 +90,7 @@ class Photography extends Component {
           selectedImgSrc={this.state.selectedImgSrc}
           selectedImgTitle={this.state.selectedImgTitle}
           selectedImgId={this.state.selectedImgId}
-          imageList={this.state.imageList}
+          imageList={this.filteredCategory()}
           changeModalContent={this.changeModalContent}
           modalToggle={this.modalToggle}
           nextPrevImg={this.nextPrevImg}
