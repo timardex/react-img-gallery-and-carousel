@@ -14,7 +14,7 @@ class Photography extends Component {
       showModal: false,
       selectedImgSrc: "",
       selectedImgTitle: "",
-      selectedImgId: null,
+      selectedImgId: "",
       selectedCategory: "",
     }
   }
@@ -37,13 +37,16 @@ class Photography extends Component {
       selectedImgSrc: item.path,
       selectedImgTitle: item.name,
       selectedImgId: item.id
-    })
+    })    
   }
   nextPrevImg = direction => {
     let idImg = getIndex(this.state.selectedImgId, direction);
+    
     let newImg = this.filteredCategory().find(item => item.id === idImg);
+    
     this.filteredCategory().map(value => (value.active = false));
     newImg.active = true;
+    console.log(newImg)
     const modalThumbs = document.getElementById("modal-thumbs");
     direction === "next"
       ? (modalThumbs.scrollLeft += 50)

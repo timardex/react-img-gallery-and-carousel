@@ -2,10 +2,10 @@ import React from 'react';
 import '../../assets/styles/_modal.scss';
 
 const Modal = (props) => {
-  const list = props.imageList.map((img, index) => {
+  const list = props.imageList.map(img => {
     return(
       <div
-        key={index}
+        key={img.id}
         style={{background: `url(${img.path})`}}
         id={`thumbs-${img.id}`}
         title={img.name}
@@ -23,7 +23,7 @@ const Modal = (props) => {
         <i className="fas fa-times-circle" onClick={() => props.modalToggle()}></i>
       </div>
       <div className="modal-inner">
-        <div className="modal-image background-img" style={{background: `url(${props.selectedImgSrc})`}} key={props.selectedImgId}></div>
+        <div className={`modal-image background-img img-${props.selectedImgId}`} style={{background: `url(${props.selectedImgSrc})`}} key={props.selectedImgId}></div>
         <div className="actions">
           {props.selectedImgId > 1 && <span className="prev" onClick={() => props.nextPrevImg('prev')}>
             <i className="fas fa-chevron-left"></i>
