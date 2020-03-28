@@ -13,6 +13,9 @@ body,
   }
   .btn-filter {
     margin: 1rem auto;
+    overflow: auto;
+    white-space: nowrap;
+    
     div {
       margin: auto;
     }
