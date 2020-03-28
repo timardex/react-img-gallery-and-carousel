@@ -1,5 +1,7 @@
 # react-img-gallery-and-carousel
 
+Demo: https://timardex.github.io/react-img-gallery-and-carousel/
+
 ## How does it work?
 Before you use this project you need to insert some `.jpg` images inside `assets/img` folder. 
 
