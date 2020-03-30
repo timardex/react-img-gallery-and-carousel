@@ -4,13 +4,15 @@ import '../../assets/styles/_modal.scss';
 const Modal = (props) => {
   const list = props.imageList.map(img => {
     return(
-      <div
-        key={img.id}
-        style={{background: `url(${img.path})`}}
-        id={`thumbs-${img.id}`}
-        title={img.name}
-        className={`thumbs-img background-img ${img.active ? 'active' : ''}`}
-        onClick={() => props.changeModalContent(img)}></div>
+      <div key={img.id}>
+        <div
+          style={{background: `url(${img.path})`}}
+          id={`thumbs-${img.id}`}
+          title={img.name}
+          className={`thumbs-img background-img ${img.active ? 'active' : ''}`}
+          onClick={() => props.changeModalContent(img)}>
+        </div>
+      </div>
     )
   });
   

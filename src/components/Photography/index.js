@@ -16,6 +16,8 @@ class Photography extends Component {
       selectedImgTitle: "",
       selectedImgId: "",
       selectedCategory: "",
+      initialItem: 8,
+      showSpinner: false
     }
   }
   getCategories = () => {
@@ -46,7 +48,6 @@ class Photography extends Component {
     
     this.filteredCategory().map(value => (value.active = false));
     newImg.active = true;
-    console.log(newImg)
     const modalThumbs = document.getElementById("modal-thumbs");
     direction === "next"
       ? (modalThumbs.scrollLeft += 50)
@@ -56,6 +57,21 @@ class Photography extends Component {
       selectedImgTitle: newImg.name,
       selectedImgId: newImg.id
     })
+  }
+  initialList = () => {
+    return this.filteredCategory().slice(0, this.state.initialItem)
+  }
+  imageLeftToLoad = () => {
+    return this.filteredCategory().length - this.initialList().length
+  }
+  loadMore = () => {
+    this.setState({showSpinner: true})
+    setTimeout(() => {
+      this.setState({
+        initialItem: this.state.initialItem + 8,
+        showSpinner: false
+      })
+    }, 2000)
   }
   modalToggle = () => {
     this.setState({
@@ -70,6 +86,7 @@ class Photography extends Component {
     }, 1000);
   }
   render() {
+    
     return (
       <div id="photography">
         <Row>
@@ -86,14 +103,22 @@ class Photography extends Component {
           </Col>
         </Row>
         <Row>
-          <Grid imageList={this.filteredCategory()} changeModalContent={this.changeModalContent} scrollToPos={this.scrollToPos}/>
+          <Grid
+            imageList={this.filteredCategory()}
+            changeModalContent={this.changeModalContent}
+            scrollToPos={this.scrollToPos}
+            initialList={this.initialList()}
+            initialItem={this.state.initialItem}
+            imageLeftToLoad={this.imageLeftToLoad()}
+            loadMore={this.loadMore}
+            showSpinner={this.state.showSpinner}/>
         </Row>
 
         {this.state.showModal && <Modal
           selectedImgSrc={this.state.selectedImgSrc}
           selectedImgTitle={this.state.selectedImgTitle}
           selectedImgId={this.state.selectedImgId}
-          imageList={this.filteredCategory()}
+          imageList={this.initialList()}
           changeModalContent={this.changeModalContent}
           modalToggle={this.modalToggle}
           nextPrevImg={this.nextPrevImg}
