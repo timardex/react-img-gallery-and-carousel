@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import { Row, Col, InputGroup, Button } from 'react-bootstrap';
-
 import { getCat, categoryFilter, getIndex } from "./helpers.js";
 import Grid from './Grid';
 import Modal from './Modal';
@@ -23,31 +21,32 @@ class Photography extends Component {
   getCategories = () => {
     return getCat(this.state.imageList);
   }
+
   filteredCategory = () => {
     return categoryFilter(this.state.currentCategory, this.state.imageList);
   }
-  getBtnValue = e => {
+  getBtnValue = item => {
     this.setState({
-      currentCategory: e.target.value
+      currentCategory: item.item
     })
+    this.getCategories().map(value => value.id === item.id ? {...value, active: true} : {...value, active: false})
   }
   changeModalContent = item => {
-    this.filteredCategory().map(value => (value.active = false));
-    item.active = true;
+    this.initialList().find(value => value.id === item.id ? value.active = true : value.active = false);
     this.setState({
       showModal: true,
       selectedImgSrc: item.path,
       selectedImgTitle: item.name,
       selectedImgId: item.id
-    })    
+    })
+    console.log(this.initialList().find(value => value.id === item.id));
   }
   nextPrevImg = direction => {
     let idImg = getIndex(this.state.selectedImgId, direction);
     
-    let newImg = this.filteredCategory().find(item => item.id === idImg);
+    let newImg = this.initialList().find(item => item.id === idImg);
     
-    this.filteredCategory().map(value => (value.active = false));
-    newImg.active = true;
+    this.initialList().find(value => value.id === newImg.id ? value.active = true : value.active = false);
     const modalThumbs = document.getElementById("modal-thumbs");
     direction === "next"
       ? (modalThumbs.scrollLeft += 50)
@@ -86,24 +85,24 @@ class Photography extends Component {
     }, 1000);
   }
   render() {
-    
     return (
       <div id="photography">
-        <Row>
-          <Col>
-            <InputGroup className="btn-filter">
-              <InputGroup.Prepend>
-                {this.getCategories().map((item, index) => {
-                  return (
-                    <Button key={index} variant="warning" value={item} onClick={e => this.getBtnValue(e)}>{item}</Button>
-                  )
-                })}
-              </InputGroup.Prepend>
-            </InputGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Grid
+
+        <ul className="btn-filter">
+          {this.getCategories().map(el => {
+            return (
+            <li
+              key={el.id}
+              value={el.item} className={el.active ? 'active' : ''}
+              onClick={() => this.getBtnValue(el)}>
+                <input type="radio" id={el.item} value={el.item} name="selector" />
+                <label htmlFor={el.item}>{el.item}</label>
+              </li>
+            )
+          })}
+        </ul>
+
+        <Grid
             imageList={this.filteredCategory()}
             changeModalContent={this.changeModalContent}
             scrollToPos={this.scrollToPos}
@@ -112,7 +111,6 @@ class Photography extends Component {
             imageLeftToLoad={this.imageLeftToLoad()}
             loadMore={this.loadMore}
             showSpinner={this.state.showSpinner}/>
-        </Row>
 
         {this.state.showModal && <Modal
           selectedImgSrc={this.state.selectedImgSrc}

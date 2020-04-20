@@ -1,17 +1,20 @@
 export const categoryFilter = (category, list) => {
-  if (category === "All") {
-    return list;
-  } else {
+  if (category !== "All") {
     let filteredList = list.filter(value => value.category === category);
     return filteredList.map((u, i) => Object.assign({}, u, { id: i + 1 }));
+  } else {
+    return list;
   }
 };
 
 export const getCat = list => {
-  let array = list.map(val => val.category);
-  let unique = [...new Set(array)];
+  const array = list.map(val => val.category);
+  const unique = [...new Set(array)];
   unique.unshift("All");
-  return unique;
+  return unique.map((item, id) => {
+    const active = false 
+    return {id, item, active}
+  })
 };
 
 export const getIndex = (idImg = 1, direction) => {
